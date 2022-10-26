@@ -1,11 +1,17 @@
+// ignore_for_file: unused_local_variable
+
+import 'dart:io';
+
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/Home/Edit.dart';
 import 'package:movie_app/Home/home.dart';
 import 'package:movie_app/Home/pageprofile.dart';
-import 'package:movie_app/Home/setting.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:movie_app/Login/pagelogin.dart';
 
 class edit extends StatefulWidget {
   const edit({super.key});
@@ -27,10 +33,11 @@ class _editState extends State<edit> {
   }
 
   var _obscureText = true;
+
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
-
+    var name;
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -68,6 +75,9 @@ class _editState extends State<edit> {
                   // print(i);
                 }
                 c++;
+
+                name = snapshot.data.docs[c]['full_name'];
+
                 return ListView(
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
@@ -156,6 +166,10 @@ class _editState extends State<edit> {
                                 emailController,
                                 snapshot.data.docs[c]['email'],
                                 passwordController);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => pageprofile()));
                           },
                           // ignore: prefer_const_constructors
                           icon: Icon(
@@ -196,20 +210,57 @@ class _editState extends State<edit> {
                         ),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(10.0),
-                      width: MediaQuery.of(context).size.width / 2,
-                      height: MediaQuery.of(context).size.width / 2,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 5),
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        image: const DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage('assets/images/avatar.png'),
-                        ),
-                      ),
-                    ),
+                    FutureBuilder(
+                        future: downloadImage(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<String> snapshot) {
+                          if (snapshot.connectionState ==
+                                  ConnectionState.done &&
+                              snapshot.hasData &&
+                              snapshot.data != null) {
+                            print(snapshot.data);
+                            return Container(
+                              padding: const EdgeInsets.all(10.0),
+                              width: MediaQuery.of(context).size.width / 2,
+                              height: MediaQuery.of(context).size.width / 2,
+                              // decoration: BoxDecoration(
+                              //   border:
+                              //       Border.all(color: Colors.white, width: 5),
+                              //   shape: BoxShape.circle,
+                              //   color: Colors.white,
+                              // ),
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Colors.white, width: 5),
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                  image: DecorationImage(
+                                      image: NetworkImage(snapshot.data!),
+                                      fit: BoxFit.cover)),
+                              // child: Image.network(snapshot.data!,
+                              //     fit: BoxFit.cover),
+                            );
+                            // Container(
+                            // padding: const EdgeInsets.all(10.0),
+                            // width: MediaQuery.of(context).size.width / 2,
+                            // height: MediaQuery.of(context).size.width / 2,
+                            // decoration: BoxDecoration(
+                            //   border:
+                            //       Border.all(color: Colors.white, width: 5),
+                            //   shape: BoxShape.circle,
+                            //   color: Colors.white,
+                            //   image: DecorationImage(
+                            //     fit: BoxFit.cover,
+                            //     image:Image.network(snapshot.data!),
+                            // Image.network(snapshot.data),
+                            // AssetImage('assets/images/avatar.png'),
+                            // ),
+                            //   ),
+                            // );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        }),
                   ],
                 );
               }),
@@ -222,13 +273,59 @@ class _editState extends State<edit> {
                   Icons.edit,
                   color: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  addImage();
+                },
               ),
             ),
           )
         ],
       ),
     );
+  }
+}
+
+Future<String> downloadImage() async {
+  final firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
+  final user = FirebaseAuth.instance.currentUser!;
+  var id = user.uid;
+  String downloadURL = await storage.ref('userpictures/$id').getDownloadURL();
+  return downloadURL;
+}
+
+void addImage() async {
+  print("hey");
+  final results = await FilePicker.platform.pickFiles(
+    allowMultiple: false,
+    type: FileType.custom,
+    allowedExtensions: ['png', 'jpge', 'jpg'],
+  );
+  if (results == null) {
+    // ScaffoldMessenger.of(context)
+    // .showSnackBar(const SnackBar(content: Text("no file selected")));
+    return null;
+  }
+  final path = results.files.single.path;
+  final fileName = results.files.single.name;
+  print(path);
+  print(fileName);
+
+  uploadimage(path, fileName).then((value) => print('Done'));
+}
+
+Future uploadimage(path, fname) async {
+  final firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
+  // File file = File(p);
+  File file = File(path);
+  print(file.toString());
+  final user = FirebaseAuth.instance.currentUser!;
+  var id = user.uid;
+  try {
+    await storage.ref('userpictures/$id').putFile(file);
+  } on firebase_core.FirebaseException catch (e) {
+    print(e);
   }
 }
 

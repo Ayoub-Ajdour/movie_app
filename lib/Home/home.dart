@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:movie_app/Home/Body.dart';
+import 'package:movie_app/Home/Edit.dart';
 import 'package:movie_app/Home/favorite.dart';
 import 'package:movie_app/Home/pageprofile.dart';
 import 'package:movie_app/Home/profile.dart';
@@ -57,9 +58,21 @@ class home extends StatelessWidget {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => pageprofile()));
                 },
-                child: const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/avatar.png'),
-                ),
+                child: FutureBuilder(
+                    future: downloadImage(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done &&
+                          snapshot.hasData &&
+                          snapshot.data != null) {
+                        print(snapshot.data);
+                        return CircleAvatar(
+                          backgroundImage: NetworkImage(snapshot.data!),
+                        );
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    }),
               ),
             )
           ],
@@ -68,12 +81,12 @@ class home extends StatelessWidget {
   }
 }
 
-getdata() async {
+Future getdata() async {
   var result = await FirebaseFirestore.instance.collection('movies').get();
   return result;
 }
 
-getfullname() async {
+Future getfullname() async {
   var result = await FirebaseFirestore.instance.collection('users').get();
   return result;
 }
@@ -117,14 +130,27 @@ class MenuBar extends StatelessWidget {
                       style: const TextStyle(
                           fontWeight: FontWeight.w900, color: Colors.white70),
                     ),
-                    currentAccountPicture: const CircleAvatar(
-                      child: ClipOval(
-                        child: Image(
-                          image: AssetImage("assets/images/avatar.png"),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+                    currentAccountPicture: FutureBuilder(
+                        future: downloadImage(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<String> snapshot) {
+                          if (snapshot.connectionState ==
+                                  ConnectionState.done &&
+                              snapshot.hasData &&
+                              snapshot.data != null) {
+                            print(snapshot.data);
+                            return CircleAvatar(
+                              child: ClipOval(
+                                child: Image(
+                                  image: NetworkImage(snapshot.data!),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        }),
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.cover,

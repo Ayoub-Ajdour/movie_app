@@ -133,20 +133,57 @@ class pageprofile extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(10.0),
-                      width: MediaQuery.of(context).size.width / 2,
-                      height: MediaQuery.of(context).size.width / 2,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 5),
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        image: const DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage('assets/images/avatar.png'),
-                        ),
-                      ),
-                    ),
+                    FutureBuilder(
+                        future: downloadImage(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<String> snapshot) {
+                          if (snapshot.connectionState ==
+                                  ConnectionState.done &&
+                              snapshot.hasData &&
+                              snapshot.data != null) {
+                            print(snapshot.data);
+                            return Container(
+                              padding: const EdgeInsets.all(10.0),
+                              width: MediaQuery.of(context).size.width / 2,
+                              height: MediaQuery.of(context).size.width / 2,
+                              // decoration: BoxDecoration(
+                              //   border:
+                              //       Border.all(color: Colors.white, width: 5),
+                              //   shape: BoxShape.circle,
+                              //   color: Colors.white,
+                              // ),
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Colors.white, width: 5),
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                  image: DecorationImage(
+                                      image: NetworkImage(snapshot.data!),
+                                      fit: BoxFit.cover)),
+                              // child: Image.network(snapshot.data!,
+                              //     fit: BoxFit.cover),
+                            );
+                            // Container(
+                            // padding: const EdgeInsets.all(10.0),
+                            // width: MediaQuery.of(context).size.width / 2,
+                            // height: MediaQuery.of(context).size.width / 2,
+                            // decoration: BoxDecoration(
+                            //   border:
+                            //       Border.all(color: Colors.white, width: 5),
+                            //   shape: BoxShape.circle,
+                            //   color: Colors.white,
+                            //   image: DecorationImage(
+                            //     fit: BoxFit.cover,
+                            //     image:Image.network(snapshot.data!),
+                            // Image.network(snapshot.data),
+                            // AssetImage('assets/images/avatar.png'),
+                            // ),
+                            //   ),
+                            // );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        }),
                     const SizedBox(
                       height: 7,
                     ),
@@ -177,19 +214,6 @@ class pageprofile extends StatelessWidget {
                   ],
                 );
               }),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 270, left: 184),
-            child: CircleAvatar(
-              backgroundColor: Colors.black54,
-              child: IconButton(
-                icon: const Icon(
-                  Icons.edit,
-                  color: Colors.white,
-                ),
-                onPressed: () {},
-              ),
-            ),
-          )
         ],
       ),
     );
