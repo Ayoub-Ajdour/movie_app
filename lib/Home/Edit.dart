@@ -2,7 +2,7 @@
 
 import 'dart:io';
 
-import 'package:firebase_core/firebase_core.dart' as firebase_core;
+// import 'package:firebase_core/firebase_core.dart' as firebase_core;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,7 +11,6 @@ import 'package:movie_app/Home/home.dart';
 import 'package:movie_app/Home/pageprofile.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:movie_app/Login/pagelogin.dart';
 
 class edit extends StatefulWidget {
   const edit({super.key});
@@ -258,7 +257,28 @@ class _editState extends State<edit> {
                             //   ),
                             // );
                           } else {
-                            return CircularProgressIndicator();
+                            return Container(
+                              padding: const EdgeInsets.all(10.0),
+                              width: MediaQuery.of(context).size.width / 2,
+                              height: MediaQuery.of(context).size.width / 2,
+                              // decoration: BoxDecoration(
+                              //   border:
+                              //       Border.all(color: Colors.white, width: 5),
+                              //   shape: BoxShape.circle,
+                              //   color: Colors.white,
+                              // ),
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Colors.white, width: 5),
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          "assets/images/avatar.png"),
+                                      fit: BoxFit.cover)),
+                              // child: Image.network(snapshot.data!,
+                              //     fit: BoxFit.cover),
+                            );
                           }
                         }),
                   ],
@@ -322,11 +342,8 @@ Future uploadimage(path, fname) async {
   print(file.toString());
   final user = FirebaseAuth.instance.currentUser!;
   var id = user.uid;
-  try {
-    await storage.ref('userpictures/$id').putFile(file);
-  } on firebase_core.FirebaseException catch (e) {
-    print(e);
-  }
+
+  await storage.ref('userpictures/$id').putFile(file);
 }
 
 void saveinfos(

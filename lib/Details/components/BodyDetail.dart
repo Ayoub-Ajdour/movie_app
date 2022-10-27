@@ -15,6 +15,7 @@ class BodyDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     // it will provide us total height and width
     Size size = MediaQuery.of(context).size;
+    // addamazigh();
     // addmovie();
     // addit(this.movie);
     return SingleChildScrollView(
@@ -65,6 +66,69 @@ class BodyDetail extends StatelessWidget {
                 );
               }
             }));
+  }
+
+  Future addamazigh() async {
+    final docUser =
+        FirebaseFirestore.instance.collection('movie').doc('AMZIGHI');
+    var json = {
+      'listmovies': [
+        {
+          'id': 4,
+          'title': "Baba Ali",
+          'year': 2021,
+          'poster': "assets/images/BabaAli/babaalic.jpg",
+          'backdrop': "assets/images/BabaAli/babaalicover.png",
+          'numOfRatings': 150212,
+          'rating': 9.9,
+          'criticsReview': 50,
+          'metascoreRating': 79,
+          'genra': ["Tamazight", "Drama", "Comedy", "ROMANTIC"],
+          'plot': "plotText",
+          'cast': [
+            {
+              "orginalName": "Ahmed N'tama",
+              "movieName": "BABA ALI",
+              "image": "assets/images/BabaAli/babaali.jpg",
+            },
+            {
+              "orginalName": "Lhoucaine Berdaouz",
+              "movieName": "DAGHOUR",
+              "image": "assets/images/BabaAli/daghor.png",
+            },
+            {
+              "orginalName": "Khadija Sakarin ",
+              "movieName": "MIHIRA",
+              "image": "assets/images/BabaAli/mihira.jpg",
+            },
+            {
+              "orginalName": "Brik",
+              "movieName": "BRIK",
+              "image": "assets/images/BabaAli/brik.jpg",
+            },
+          ],
+          'director': [
+            {
+              "orginalName": "Ahmed N'tama",
+              "movieName": "Baba Ali",
+              "image": "assets/images/BabaAli/babaali.jpg",
+            },
+            {
+              "orginalName": "Mostafa Achour",
+              "movieName": "None",
+              "image": "assets/images/BabaAli/director.png",
+            },
+          ],
+          'plotText':
+              'Baba Ali is a Moroccan Amazigh comedy television series, Soussi, speaking in Tachelhit, produced in 2021 (Part 1) and 2022 (Part 2). With the beginning of Ramadan 2021, Channel Eight began broadcasting its episodes every day after Al Fotor. The idea of ​​the series is inspired by the old story “Ali Baba.” ”',
+          // plotText =
+          //     "Baba Alis a Moroccan Amazigh comedy television series, Soussi, speaking in Tachelhit, produced in 2021 (Part 1) and 2022 (Part 2). With the beginning of Ramadan 2021, Channel Eight began broadcasting its episodes every day after breakfast. The idea of ​​the series is inspired by the old story “Ali Baba.” ”",
+          'productioncompany': 'WARDA PRODUCTION',
+          'runtime': '0h 44m',
+        }
+      ]
+    };
+    docUser.set(json);
   }
 
   Future addit(movie) async {

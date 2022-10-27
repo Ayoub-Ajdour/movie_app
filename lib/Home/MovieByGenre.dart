@@ -115,6 +115,8 @@ class _MovieByGenreState extends State<MovieByGenre> {
                           test = 4;
                         } else if (genre == "ROMANTIC") {
                           test = 5;
+                        } else if (genre == "AMAZIGHI") {
+                          test = 6;
                         }
                         // print(test);
                         // print(

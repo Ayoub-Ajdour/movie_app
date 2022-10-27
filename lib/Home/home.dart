@@ -10,6 +10,8 @@ import 'package:movie_app/Home/favorite.dart';
 import 'package:movie_app/Home/pageprofile.dart';
 import 'package:movie_app/Home/profile.dart';
 import 'package:movie_app/Home/watchlater.dart';
+import 'package:movie_app/Login/MainPage.dart';
+import 'package:movie_app/Login/pagelogin.dart';
 import 'package:movie_app/model/movie.dart';
 
 // ignore: camel_case_types
@@ -70,7 +72,11 @@ class home extends StatelessWidget {
                           backgroundImage: NetworkImage(snapshot.data!),
                         );
                       } else {
-                        return const CircularProgressIndicator();
+                        return const CircleAvatar(
+                          backgroundImage:
+                              AssetImage("assets/images/avatar.png"),
+                        );
+                        ;
                       }
                     }),
               ),
@@ -148,7 +154,14 @@ class MenuBar extends StatelessWidget {
                               ),
                             );
                           } else {
-                            return CircularProgressIndicator();
+                            return CircleAvatar(
+                              child: ClipOval(
+                                child: Image(
+                                  image: AssetImage("assets/images/avatar.png"),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
                           }
                         }),
                     decoration: const BoxDecoration(
@@ -184,7 +197,8 @@ class MenuBar extends StatelessWidget {
                     title: const Text("Sign out"),
                     onTap: () {
                       FirebaseAuth.instance.signOut();
-
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => loginpage()));
 //               firebase.auth().signOut().then(function() {
 //   console.log('Signed Out');
 // }, function(error) {

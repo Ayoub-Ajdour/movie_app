@@ -40,13 +40,13 @@ class HomePage extends State<preparingAccount> {
   ];
   final List<String> itemss = [
     'Chose your favorite Production company  ',
-    'ACTION',
-    'COMEDY',
-    'ADVENTURE',
-    'ROMANTIC',
-    'Item6',
-    'Item7',
-    'Item8',
+    'MARAVEL',
+    'Warner Bros',
+    'Sony',
+    '20th Century Fox',
+    'Paramount Pictures',
+    'Lionsgate Films',
+    'The Weinstein Company',
   ];
 
   @override
@@ -108,7 +108,8 @@ class HomePage extends State<preparingAccount> {
                   itemPadding: const EdgeInsets.only(left: 40, right: 40),
                   dropdownMaxHeight: 200,
                   dropdownWidth: 200,
-                  dropdownPadding: const EdgeInsets.only(left: 40, right: 40),
+                  dropdownPadding: null,
+                  // dropdownPadding: const EdgeInsets.only(left: 40, right: 40),
                   dropdownDecoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(14),
                     color: Color.fromARGB(0, 128, 128, 124),

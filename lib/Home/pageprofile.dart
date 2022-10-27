@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/Home/Edit.dart';
 import 'package:movie_app/Home/home.dart';
 import 'package:movie_app/Home/setting.dart';
+import 'package:movie_app/Login/pagelogin.dart';
 
 class pageprofile extends StatelessWidget {
   const pageprofile({super.key});
@@ -95,6 +96,8 @@ class pageprofile extends StatelessWidget {
                     backgroundColor: const Color.fromARGB(0, 0, 0, 0)),
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => loginpage()));
                 },
                 child: const profilewidget(
                   icon: Icons.logout,
@@ -146,6 +149,20 @@ class pageprofile extends StatelessWidget {
                               padding: const EdgeInsets.all(10.0),
                               width: MediaQuery.of(context).size.width / 2,
                               height: MediaQuery.of(context).size.width / 2,
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Colors.white, width: 5),
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                  image: DecorationImage(
+                                      image: NetworkImage(snapshot.data!),
+                                      fit: BoxFit.cover)),
+                            );
+                          } else {
+                            return Container(
+                              padding: const EdgeInsets.all(10.0),
+                              width: MediaQuery.of(context).size.width / 2,
+                              height: MediaQuery.of(context).size.width / 2,
                               // decoration: BoxDecoration(
                               //   border:
                               //       Border.all(color: Colors.white, width: 5),
@@ -158,30 +175,12 @@ class pageprofile extends StatelessWidget {
                                   shape: BoxShape.circle,
                                   color: Colors.white,
                                   image: DecorationImage(
-                                      image: NetworkImage(snapshot.data!),
+                                      image: AssetImage(
+                                          "assets/images/avatar.png"),
                                       fit: BoxFit.cover)),
                               // child: Image.network(snapshot.data!,
                               //     fit: BoxFit.cover),
                             );
-                            // Container(
-                            // padding: const EdgeInsets.all(10.0),
-                            // width: MediaQuery.of(context).size.width / 2,
-                            // height: MediaQuery.of(context).size.width / 2,
-                            // decoration: BoxDecoration(
-                            //   border:
-                            //       Border.all(color: Colors.white, width: 5),
-                            //   shape: BoxShape.circle,
-                            //   color: Colors.white,
-                            //   image: DecorationImage(
-                            //     fit: BoxFit.cover,
-                            //     image:Image.network(snapshot.data!),
-                            // Image.network(snapshot.data),
-                            // AssetImage('assets/images/avatar.png'),
-                            // ),
-                            //   ),
-                            // );
-                          } else {
-                            return CircularProgressIndicator();
                           }
                         }),
                     const SizedBox(
