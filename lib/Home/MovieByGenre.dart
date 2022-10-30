@@ -136,7 +136,7 @@ class _MovieByGenreState extends State<MovieByGenre> {
                                       openElevation: 0,
                                       closedBuilder: (context, action) =>
                                           Container(
-                                        color: Color.fromARGB(46, 90, 90, 90),
+                                        color: Color.fromARGB(66, 90, 90, 90),
                                         child: Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               10, 10, 10, 20),

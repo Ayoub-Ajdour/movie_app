@@ -8,6 +8,8 @@ import 'package:movie_app/Home/genres.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
+  //
+  //
   // QueryDocumentSnapshot<Object?> c;
   @override
   Widget build(BuildContext context) {

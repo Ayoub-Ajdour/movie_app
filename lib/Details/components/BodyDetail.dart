@@ -70,7 +70,7 @@ class BodyDetail extends StatelessWidget {
 
   Future addamazigh() async {
     final docUser =
-        FirebaseFirestore.instance.collection('movie').doc('AMZIGHI');
+        FirebaseFirestore.instance.collection('movie').doc('AMAZIGHI');
     var json = {
       'listmovies': [
         {

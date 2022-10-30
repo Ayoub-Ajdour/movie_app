@@ -295,6 +295,10 @@ class _editState extends State<edit> {
                 ),
                 onPressed: () {
                   addImage();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => edit()),
+                  );
                 },
               ),
             ),

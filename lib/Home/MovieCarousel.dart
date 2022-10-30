@@ -50,7 +50,7 @@ class _MovieCarouselState extends State<MovieCarousel> {
                               closedElevation: 0,
                               openElevation: 0,
                               closedBuilder: (context, action) => Container(
-                                color: Color.fromARGB(46, 90, 90, 90),
+                                color: Color.fromARGB(66, 90, 90, 90),
                                 child: Column(
                                   children: <Widget>[
                                     Expanded(

@@ -23,8 +23,8 @@ class home extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser!;
 
     return Scaffold(
-
-        //// backgroundColor: const Color.fromARGB(0, 0, 0, 0),
+        backgroundColor: Color.fromARGB(20, 90, 90, 90),
+        // backgroundColor: const Color.fromARGB(0, 0, 0, 0),
         drawer: const MenuBar(),
         appBar: AppBar(
           elevation: 0,
@@ -113,7 +113,7 @@ class MenuBar extends StatelessWidget {
               while (snapshot.data.docs[i]['email'] != user.email) {
                 c = i;
                 i++;
-                print(i);
+                // print(i);
               }
               c++;
               // print(
@@ -214,21 +214,21 @@ class MenuBar extends StatelessWidget {
                           .invokeMethod('SystemNavigator.pop');
                     },
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.shower),
-                    title: const Text("print"),
-                    onTap: () {
-                      // print("hey");
-                      DocumentReference documentReference = FirebaseFirestore
-                          .instance
-                          .collection("movie")
-                          .doc("movie");
-                      documentReference
-                          .get()
-                          .then((datasnapshot) => datasnapshot.data);
-                      //Movie.fromJson(datasnapshot));
-                    },
-                  ),
+                  // ListTile(
+                  //   leading: const Icon(Icons.shower),
+                  //   title: const Text("print"),
+                  //   onTap: () {
+                  //     // print("hey");
+                  //     DocumentReference documentReference = FirebaseFirestore
+                  //         .instance
+                  //         .collection("movie")
+                  //         .doc("movie");
+                  //     documentReference
+                  //         .get()
+                  //         .then((datasnapshot) => datasnapshot.data);
+                  //     //Movie.fromJson(datasnapshot));
+                  //   },
+                  // ),
                 ],
               );
             }));

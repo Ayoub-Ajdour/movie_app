@@ -24,6 +24,7 @@ class _signuppageState extends State<signuppage> {
   final phonenumberController = TextEditingController();
 
   late final String uid;
+  var _obscureText = false;
   @override
   void dispose() {
     emailController.dispose();
@@ -121,9 +122,14 @@ class _signuppageState extends State<signuppage> {
                 decoration: InputDecoration(
                   fillColor: const Color.fromARGB(95, 128, 128, 124),
                   hintText: "Password",
+
                   // ignore: prefer_const_constructors
                   prefixIcon: Padding(
                     padding: const EdgeInsets.all(20),
+                    // child: Icon(
+                    //   _obscureText ? Icons.visibility_off : Icons.visibility,
+                    //   color: Color.fromARGB(255, 71, 71, 70),
+                    // )
                   ),
                 ),
                 obscureText: true,
